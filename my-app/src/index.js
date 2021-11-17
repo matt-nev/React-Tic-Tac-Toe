@@ -14,8 +14,8 @@ class Board extends React.Component {
   renderSquare(i) {
     return (
       <Square
-        value={this.props.squares[i]}
-        onClick={() => this.props.onClick(i)}
+        value={this.props.squares[i]}           // pass location of each square into onclick
+        onClick={() => this.props.onClick(i)}   // pass location of each square into onclick
       />
     );
   }
@@ -44,15 +44,15 @@ class Board extends React.Component {
 }
 
 class Game extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor(props) {                          // lift up from board into game component 
+    super(props);                               // 
     this.state = {
       history: [
         {
           squares: Array(9).fill(null)
         }
       ],
-      stepNumber: 0,
+      stepNumber: 0,      // state to indicate which step weire viewing 
       xIsNext: true
     };
   }
@@ -76,19 +76,19 @@ class Game extends React.Component {
     });
   }
 
-  jumpTo(step) {
+  jumpTo(step) {                // updates step number 
     this.setState({
       stepNumber: step,
-      xIsNext: (step % 2) === 0
+      xIsNext: (step % 2) === 0    // is true if stepnumber is even
     });
   }
 
   render() {
     const history = this.state.history;
-    const current = history[this.state.stepNumber];
+    const current = history[this.state.stepNumber];  // move from rendering last move to rendergin currently selected move
     const winner = calculateWinner(current.squares);
 
-    const moves = history.map((step, move) => {
+    const moves = history.map((step, move) => {                              //map history of moves to reaact elements 
       const desc = move ?
         'Go to move #' + move :
         'Go to game start';
@@ -122,8 +122,6 @@ class Game extends React.Component {
     );
   }
 }
-
-// ========================================
 
 ReactDOM.render(<Game />, document.getElementById("root"));
 
